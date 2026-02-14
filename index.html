@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI',sans-serif;
+    overflow:hidden;
+    background:linear-gradient(-45deg,#ff4e88,#ff7eb3,#ffd1dc,#ffffff);
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+    padding:20px;
+    position:relative;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* dreamy glow */
+body::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle,rgba(255,255,255,0.5),transparent 70%);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    filter:blur(120px);
+    z-index:0;
+}
+
+.card{
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.25);
+    border-radius:25px;
+    padding:30px;
+    max-width:700px;
+    width:100%;
+    color:#fff;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    animation:cinematicIntro 2s ease forwards;
+    transform:scale(0.9);
+    opacity:0;
+    z-index:2;
+    max-height:90vh;
+    overflow-y:auto;
+}
+
+@keyframes cinematicIntro{
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+h1{
+    margin-bottom:20px;
+    font-size:26px;
+}
+
+p{
+    font-size:16px;
+    line-height:1.8;
+    white-space:pre-line;
+}
+
+/* blinking cursor */
+#letter::after{
+    content:"|";
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%,50%,100%{opacity:1;}
+    25%,75%{opacity:0;}
+}
+
+.signature{
+    margin-top:20px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+/* buttons */
+.buttons{
+    margin-top:25px;
+    display:none;
+    gap:20px;
+    justify-content:center;
+}
+
+button{
+    padding:10px 25px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.yes{
+    background:#ff4e88;
+    color:#fff;
+}
+
+.no{
+    background:#fff;
+    color:#ff4e88;
+    position:relative;
+}
+
+/* falling hearts */
+.heart{
+    position:absolute;
+    top:-20px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(110vh);}
+}
+
+/* explosion */
+.explosion{
+    position:absolute;
+    font-size:25px;
+    animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+    0%{transform:scale(0);}
+    100%{transform:scale(3); opacity:0;}
+}
+
+@media(max-width:500px){
+    h1{font-size:22px;}
+    p{font-size:14px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Сайн уу, Мишээл ❤️</h1>
+    <p id="letter"></p>
+    <div class="signature">Азжаргал ❤️</div>
+
+    <div class="buttons" id="choice">
+        <button class="yes" onclick="acceptLove()">Тийм ❤️</button>
+        <button class="no" onmouseover="moveNo()">Үгүй 🙈</button>
+    </div>
+</div>
+
+<script>
+const text=`Валентины өдрийн мэнд хүргэе. 🌹
+
+Чи бид хоёр танилцаад сайнтай, муутай нэг жилийг хамтдаа өнгөрүүлжээ.
+Олон удаа холдож, бас эргээд уулзаж байсан ч
+яагаад ч юм бэ, бид дахин холбогдсоор ирсэн.
+
+Учрах ёстой хүмүүс гэж байдаг бол
+магадгүй бид хоёр тэдний нэг байх.
+
+Чамтай ярилцах мэдрэмж огт өөр.
+Чиний инээмсэглэл, харц бүр онцгой.
+
+Чи надад боломж олгох уу? ❤️`;
+
+let i=0;
+function typeWriter(){
+    if(i<text.length){
+        document.getElementById("letter").innerHTML+=text.charAt(i);
+        i++;
+        setTimeout(typeWriter,25);
+    }else{
+        document.getElementById("choice").style.display="flex";
+    }
+}
+typeWriter();
+
+/* falling hearts */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    heart.style.fontSize=(Math.random()*25+15)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+/* no button runs away */
+function moveNo(){
+    const btn=document.querySelector(".no");
+    btn.style.position="absolute";
+    btn.style.top=Math.random()*80+"%";
+    btn.style.left=Math.random()*80+"%";
+}
+
+/* yes button explosion */
+function acceptLove(){
+    for(let i=0;i<30;i++){
+        const heart=document.createElement("div");
+        heart.classList.add("explosion");
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.top=Math.random()*100+"vh";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),1000);
+    }
+    document.querySelector(".card").innerHTML=
+    "<h1>❤️ Чи миний хамгийн сайхан сонголт ❤️</h1><p>Энэ мөчөөс эхлээд илүү гоё түүх эхэлнэ...</p>";
+}
+</script>
+
+</body>
+</html>
